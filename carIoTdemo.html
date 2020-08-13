@@ -1,0 +1,54 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
+    <script src="http://cdn.pubnub.com/pubnub.min.js"></script>
+  </head>
+  <body>
+    <div data-role="page">
+  
+      <div data-role="header">
+        <h1>Car IoT</h1>
+      </div>
+  
+      <div data-role="content">
+        <h3 class="ui-bar ui-bar-a ui-corner-all">Drive Thru</h3>
+        <div class="ui-body ui-body-a ui-corner-all">
+          <div class="ui-grid-a toggle" id="Successful Transaction made">
+            <div class="ui-block-b">
+              <button type="button" class="ui-shadow ui-btn ui-corner-all ui-btn-inline" value="1">Make payment</button>
+            </div>
+          </div>
+          <div class="ui-grid-a toggle" id="Transaction cancelled">
+            <div class="ui-block-b">
+              <button type="button" class="ui-shadow ui-btn ui-corner-all ui-btn-inline" value="0">Transaction cancelled</button>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+  
+    </div>
+  
+    <script>
+      $(function() {
+        var channel = "testing";
+        var pubnub = PUBNUB.init({
+          publish_key: 'pub-c-1e4d3e36-a42c-4113-b6de-e3581454e8e5',
+          subscribe_key: 'sub-c-75efc3be-7030-11e9-bedf-bef46dd4efdc'
+        });
+        $('button').click(function(){
+          var value = $(this).val();
+          var module = $(this).parent().parent().attr('id');
+          pubnub.publish({
+            channel: channel,
+            message: {
+                "":module
+            }
+          });
+        });
+      });
+    </script>
+  </body>
